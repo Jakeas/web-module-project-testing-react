@@ -5,19 +5,51 @@ import userEvent from '@testing-library/user-event';
 import Show from './../Show';
 
 const testShow = {
-    //add in approprate test data structure here.
+    //add in appropriate test data structure here.
+    name: "Stranger Things",
+    seasons: [
+        {
+            id:0,
+            name: "Season 1", 
+            episodes: []
+        },
+        {
+            id:1,
+            name: "Season 2", 
+            episodes: []
+        },
+        {
+            id:2,
+            name: "Season 3", 
+            episodes: []
+        },
+        {
+            id:3,
+            name: "Season 4", 
+            episodes: []
+        }
+    ]
 }
 
 test('renders testShow and no selected Season without errors', ()=>{
+    render(<Show season={testShow}/>)
 });
 
 test('renders Loading component when prop show is null', () => {
+    render(<Show season={testShow} show={null}/>)
+    const loading = screen.getByText(/fetching data/i)
+    expect(loading).toBeVisible()
+    expect(loading).toBeInTheDocument()
 });
 
 test('renders same number of options seasons are passed in', ()=>{
+    render(<Show show={testShow} selectedSeason={'none'} />)
+    const seasonOption = screen.queryAllByTestId("season-option")
+    expect(seasonOption).toHaveLength(3)
 });
 
 test('handleSelect is called when an season is selected', () => {
+    render(<Show show={testShow} season={testShow}  selectedSeason={'none'} />)
 });
 
 test('component renders when no seasons are selected and when rerenders with a season passed in', () => {
